@@ -1,31 +1,31 @@
-resource "google_service_account" "poweb" {
+resource "google_service_account" "queue" {
   project = var.project_id
 
-  account_id   = "gateway-${var.instance_name}-poweb"
-  display_name = "Awala Internet Gateway (PoWeb, ${var.instance_name})"
+  account_id   = "gateway-${var.instance_name}-queue"
+  display_name = "Awala Internet Gateway (background queue, ${var.instance_name})"
 }
 
-resource "google_cloud_run_v2_service" "poweb" {
-  name     = "gateway-${var.instance_name}-poweb"
+resource "google_cloud_run_v2_service" "queue" {
+  name     = "gateway-${var.instance_name}-queue"
   location = var.region
-  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+  ingress  = "INGRESS_TRAFFIC_INTERNAL_ONLY"
 
   launch_stage = "BETA"
 
   template {
     timeout = "5s"
 
-    service_account = google_service_account.poweb.email
+    service_account = google_service_account.queue.email
 
     execution_environment = "EXECUTION_ENVIRONMENT_GEN2"
 
-    max_instance_request_concurrency = var.poweb_server_max_instance_request_concurrency
+    max_instance_request_concurrency = var.queue_server_max_instance_request_concurrency
 
     containers {
-      name  = "poweb"
+      name  = "queue"
       image = "${var.docker_image_name}:${var.docker_image_tag}"
 
-      args = ["build/main/bin/poweb-server.js"]
+      args = ["build/main/bin/queue-server.js"]
 
       env {
         name  = "PUBLIC_ADDRESS"
@@ -157,8 +157,8 @@ resource "google_cloud_run_v2_service" "poweb" {
     }
 
     scaling {
-      min_instance_count = var.poweb_server_min_instance_count
-      max_instance_count = var.poweb_server_max_instance_count
+      min_instance_count = var.queue_server_min_instance_count
+      max_instance_count = var.queue_server_max_instance_count
     }
 
     vpc_access {
@@ -176,28 +176,28 @@ resource "google_cloud_run_v2_service" "poweb" {
   ]
 }
 
-resource "google_cloud_run_service_iam_member" "poweb_public_access" {
-  location = google_cloud_run_v2_service.poweb.location
-  project  = google_cloud_run_v2_service.poweb.project
-  service  = google_cloud_run_v2_service.poweb.name
+resource "google_cloud_run_service_iam_member" "queue_public_access" {
+  location = google_cloud_run_v2_service.queue.location
+  project  = google_cloud_run_v2_service.queue.project
+  service  = google_cloud_run_v2_service.queue.name
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
 
-resource "google_compute_region_network_endpoint_group" "poweb" {
+resource "google_compute_region_network_endpoint_group" "queue" {
   project = var.project_id
   region  = var.region
 
-  name = "gateway-${var.instance_name}-poweb"
+  name = "gateway-${var.instance_name}-queue"
 
   network_endpoint_type = "SERVERLESS"
   cloud_run {
-    service = google_cloud_run_v2_service.poweb.name
+    service = google_cloud_run_v2_service.queue.name
   }
 }
 
-resource "google_storage_bucket_iam_member" "poweb" {
+resource "google_storage_bucket_iam_member" "queue" {
   bucket = google_storage_bucket.gateway_messages.name
   role   = "roles/storage.objectUser"
-  member = "serviceAccount:${google_service_account.poweb.email}"
+  member = "serviceAccount:${google_service_account.queue.email}"
 }

@@ -101,7 +101,6 @@ variable "pohttp_server_max_instance_count" {
   default     = 3
 }
 
-
 // ===== PoWeb =====
 
 variable "poweb_server_domain" {
@@ -119,6 +118,24 @@ variable "poweb_server_min_instance_count" {
 }
 variable "poweb_server_max_instance_count" {
   description = "The maximum number of instances (for the PoWeb server)"
+  type        = number
+  default     = 3
+}
+
+// ===== Background queue =====
+
+variable "queue_server_max_instance_request_concurrency" {
+  description = "The maximum number of concurrent requests per instance (for the background queue)"
+  type        = number
+  default     = 80
+}
+variable "queue_server_min_instance_count" {
+  description = "The minimum number of instances (for the background queue)"
+  type        = number
+  default     = 1
+}
+variable "queue_server_max_instance_count" {
+  description = "The maximum number of instances (for the background queue)"
   type        = number
   default     = 3
 }

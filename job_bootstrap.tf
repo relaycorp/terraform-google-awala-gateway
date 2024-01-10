@@ -109,6 +109,7 @@ resource "google_cloud_run_v2_job" "bootstrap" {
   depends_on = [
     time_sleep.wait_for_id_key_creation,
     google_secret_manager_secret_iam_binding.mongodb_password_reader,
+    google_project_iam_binding.keystore_kms_user,
   ]
   lifecycle {
     ignore_changes = [launch_stage]

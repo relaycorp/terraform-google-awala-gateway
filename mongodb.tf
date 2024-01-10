@@ -24,5 +24,6 @@ resource "google_secret_manager_secret_iam_binding" "mongodb_password_reader" {
     "serviceAccount:${google_service_account.bootstrap.email}",
     "serviceAccount:${google_service_account.pohttp.email}",
     "serviceAccount:${google_service_account.poweb.email}",
+    "serviceAccount:${google_service_account.queue.email}",
   ]
 }
