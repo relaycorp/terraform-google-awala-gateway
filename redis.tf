@@ -1,5 +1,5 @@
 resource "google_compute_global_address" "redis" {
-  name          = "${var.instance_name}-redis"
+  name          = "gateway-${var.instance_name}-redis"
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
   prefix_length = 16
@@ -13,7 +13,7 @@ resource "google_service_networking_connection" "redis" {
 }
 
 resource "google_redis_instance" "main" {
-  name           = var.instance_name
+  name           = "gateway-${var.instance_name}"
   display_name   = "Awala Gateway (${var.instance_name})"
   tier           = "BASIC"
   memory_size_gb = 1
