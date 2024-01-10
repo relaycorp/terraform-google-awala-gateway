@@ -1,3 +1,10 @@
+resource "google_service_account" "pohttp" {
+  project = var.project_id
+
+  account_id   = "gateway-${var.instance_name}-pohttp"
+  display_name = "Awala Internet Gateway (PoHTTP, ${var.instance_name})"
+}
+
 resource "google_cloud_run_v2_service" "pohttp" {
   name     = "gateway-${var.instance_name}-pohttp"
   location = var.region
@@ -8,7 +15,7 @@ resource "google_cloud_run_v2_service" "pohttp" {
   template {
     timeout = "5s"
 
-    service_account = google_service_account.main.email
+    service_account = google_service_account.pohttp.email
 
     execution_environment = "EXECUTION_ENVIRONMENT_GEN2"
 
@@ -55,42 +62,6 @@ resource "google_cloud_run_v2_service" "pohttp" {
       env {
         name  = "PRIVATE_KEY_STORE_ADAPTER"
         value = "0"
-      }
-
-      // @relaycorp/awala-keystore-cloud options
-      env {
-        name  = "KEYSTORE_ADAPTER"
-        value = "gcp"
-      }
-      env {
-        name  = "KS_GCP_LOCATION"
-        value = var.region
-      }
-      env {
-        name  = "KS_KMS_KEYRING"
-        value = google_kms_key_ring.keystores.name
-      }
-      env {
-        name  = "KS_KMS_ID_KEY"
-        value = google_kms_crypto_key.identity_key.name
-      }
-      env {
-        name  = "KS_KMS_SESSION_ENC_KEY"
-        value = google_kms_crypto_key.session_keys.name
-      }
-
-      // @relaycorp/webcrypto-kms options
-      env {
-        name  = "GCP_KMS_LOCATION"
-        value = var.region
-      }
-      env {
-        name  = "GCP_KMS_KEYRING"
-        value = google_kms_key_ring.keystores.name
-      }
-      env {
-        name  = "GCP_KMS_PROTECTION_LEVEL"
-        value = var.kms_protection_level
       }
 
       env {
@@ -185,10 +156,16 @@ resource "google_compute_region_network_endpoint_group" "pohttp" {
   project = var.project_id
   region  = var.region
 
-  name = "gateway-${var.instance_name}"
+  name = "gateway-${var.instance_name}-pohttp"
 
   network_endpoint_type = "SERVERLESS"
   cloud_run {
     service = google_cloud_run_v2_service.pohttp.name
   }
+}
+
+resource "google_storage_bucket_iam_member" "pohttp" {
+  bucket = google_storage_bucket.gateway_messages.name
+  role   = "roles/storage.objectUser"
+  member = "serviceAccount:${google_service_account.pohttp.email}"
 }

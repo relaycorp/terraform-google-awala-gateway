@@ -1,3 +1,10 @@
+resource "google_service_account" "bootstrap" {
+  project = var.project_id
+
+  account_id   = "gateway-${var.instance_name}-bootstrap"
+  display_name = "Awala Internet Gateway (Bootstrap, ${var.instance_name})"
+}
+
 resource "google_cloud_run_v2_job" "bootstrap" {
   name     = "gateway-${var.instance_name}-bootstrap"
   location = var.region
@@ -9,7 +16,7 @@ resource "google_cloud_run_v2_job" "bootstrap" {
 
       timeout = "300s"
 
-      service_account = google_service_account.main.email
+      service_account = google_service_account.bootstrap.email
 
       execution_environment = "EXECUTION_ENVIRONMENT_GEN2"
 
@@ -78,20 +85,6 @@ resource "google_cloud_run_v2_job" "bootstrap" {
         env {
           name  = "KS_KMS_SESSION_ENC_KEY"
           value = google_kms_crypto_key.session_keys.name
-        }
-
-        // @relaycorp/webcrypto-kms options
-        env {
-          name  = "GCP_KMS_LOCATION"
-          value = var.region
-        }
-        env {
-          name  = "GCP_KMS_KEYRING"
-          value = google_kms_key_ring.keystores.name
-        }
-        env {
-          name  = "GCP_KMS_PROTECTION_LEVEL"
-          value = var.kms_protection_level
         }
 
         env {

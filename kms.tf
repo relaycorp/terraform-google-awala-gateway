@@ -74,12 +74,12 @@ resource "google_project_iam_custom_role" "keystore_kms_admin" {
   ]
 }
 
-resource "google_project_iam_binding" "keystore_kms_admin" {
+resource "google_project_iam_member" "keystore_kms_admin" {
   project = var.project_id
 
   role = google_project_iam_custom_role.keystore_kms_admin.id
 
-  members = ["serviceAccount:${google_service_account.main.email}"]
+  member = "serviceAccount:${google_service_account.bootstrap.email}"
 
   condition {
     title      = "Limit app access to KMS key ring"
@@ -87,11 +87,14 @@ resource "google_project_iam_binding" "keystore_kms_admin" {
   }
 }
 
-resource "google_project_iam_member" "keystore_kms_user" {
+resource "google_project_iam_binding" "keystore_kms_user" {
   project = var.project_id
 
-  role   = "roles/cloudkms.cryptoOperator"
-  member = "serviceAccount:${google_service_account.main.email}"
+  role = "roles/cloudkms.cryptoOperator"
+  members = [
+    "serviceAccount:${google_service_account.bootstrap.email}",
+    "serviceAccount:${google_service_account.poweb.email}",
+  ]
 
   condition {
     title      = "Limit app access to KMS key ring"

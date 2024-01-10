@@ -20,9 +20,3 @@ resource "google_storage_bucket" "gateway_messages" {
 
   force_destroy = !var.prevent_destruction
 }
-
-resource "google_storage_bucket_iam_member" "gateway_gcs_bucket" {
-  bucket = google_storage_bucket.gateway_messages.name
-  role   = "roles/storage.objectAdmin"
-  member = "serviceAccount:${google_service_account.main.email}"
-}

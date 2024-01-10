@@ -20,5 +20,9 @@ resource "google_secret_manager_secret_version" "mongodb_password" {
 resource "google_secret_manager_secret_iam_binding" "mongodb_password_reader" {
   secret_id = google_secret_manager_secret.mongodb_password.secret_id
   role      = "roles/secretmanager.secretAccessor"
-  members   = ["serviceAccount:${google_service_account.main.email}"]
+  members = [
+    "serviceAccount:${google_service_account.bootstrap.email}",
+    "serviceAccount:${google_service_account.pohttp.email}",
+    "serviceAccount:${google_service_account.poweb.email}",
+  ]
 }
