@@ -12,6 +12,7 @@ module "gateway" {
   region     = var.google_region
 
   pohttp_server_domain = var.pohttp_server_domain
+  poweb_server_domain  = var.poweb_server_domain
 
   mongodb_db       = local.gateway_db_name
   mongodb_password = random_password.mongodb_gateway_user_password.result

@@ -24,3 +24,6 @@ variable "internet_address" {
 variable "pohttp_server_domain" {
   description = "The domain name for the PoHTTP server in the Awala Internet Gateway"
 }
+variable "poweb_server_domain" {
+  description = "The domain name for the PoWeb server in the Awala Internet Gateway"
+}

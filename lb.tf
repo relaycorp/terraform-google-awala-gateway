@@ -9,7 +9,7 @@ module "load_balancer" {
   ssl                             = true
   ssl_policy                      = google_compute_ssl_policy.main.id
   random_certificate_suffix       = true # In case the domain changes
-  managed_ssl_certificate_domains = [var.pohttp_server_domain]
+  managed_ssl_certificate_domains = [var.pohttp_server_domain, var.poweb_server_domain]
 
   backends = {
     pohttp = {
@@ -17,6 +17,23 @@ module "load_balancer" {
       groups = [
         {
           group = google_compute_region_network_endpoint_group.pohttp.id
+        }
+      ]
+      enable_cdn = false
+
+      iap_config = {
+        enable = false
+      }
+      log_config = {
+        enable = false
+      }
+    }
+
+    poweb = {
+      description = "PoWeb"
+      groups = [
+        {
+          group = google_compute_region_network_endpoint_group.poweb.id
         }
       ]
       enable_cdn = false

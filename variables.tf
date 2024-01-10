@@ -100,3 +100,25 @@ variable "pohttp_server_max_instance_count" {
   type        = number
   default     = 3
 }
+
+
+// ===== PoWeb =====
+
+variable "poweb_server_domain" {
+  description = "Domain name for the PoWeb server"
+}
+variable "poweb_server_max_instance_request_concurrency" {
+  description = "The maximum number of concurrent requests per instance (for the PoWeb server)"
+  type        = number
+  default     = 80
+}
+variable "poweb_server_min_instance_count" {
+  description = "The minimum number of instances (for the PoWeb server)"
+  type        = number
+  default     = 1
+}
+variable "poweb_server_max_instance_count" {
+  description = "The maximum number of instances (for the PoWeb server)"
+  type        = number
+  default     = 3
+}
