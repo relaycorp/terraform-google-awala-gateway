@@ -28,7 +28,7 @@ resource "google_cloud_run_v2_service" "pohttp" {
       args = ["build/main/bin/pohttp-server.js"]
 
       env {
-        name  = "INTERNET_GATEWAY"
+        name  = "INTERNET_ADDRESS"
         value = var.internet_address
       }
 

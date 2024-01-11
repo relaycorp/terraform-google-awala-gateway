@@ -26,7 +26,7 @@ resource "google_cloud_run_v2_service" "cogrpc" {
       args = ["build/main/bin/cogrpc-server.js"]
 
       env {
-        name  = "INTERNET_GATEWAY"
+        name  = "INTERNET_ADDRESS"
         value = var.internet_address
       }
 

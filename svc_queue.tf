@@ -28,7 +28,7 @@ resource "google_cloud_run_v2_service" "queue" {
       args = ["build/main/bin/queue-server.js"]
 
       env {
-        name  = "INTERNET_GATEWAY"
+        name  = "INTERNET_ADDRESS"
         value = var.internet_address
       }
 

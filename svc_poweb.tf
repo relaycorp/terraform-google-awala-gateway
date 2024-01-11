@@ -28,7 +28,7 @@ resource "google_cloud_run_v2_service" "poweb" {
       args = ["build/main/bin/poweb-server.js"]
 
       env {
-        name  = "INTERNET_GATEWAY"
+        name  = "INTERNET_ADDRESS"
         value = var.internet_address
       }
 
