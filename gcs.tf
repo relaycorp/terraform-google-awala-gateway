@@ -11,7 +11,7 @@ resource "google_storage_bucket" "gateway_messages" {
 
   lifecycle_rule {
     condition {
-      age = 2 // https://github.com/relaycorp/cloud-gateway/issues/64
+      age = var.parcel_retention_days
     }
     action {
       type = "Delete"

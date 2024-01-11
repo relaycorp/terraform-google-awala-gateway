@@ -11,6 +11,8 @@ module "gateway" {
   project_id = var.google_project_id
   region     = var.google_region
 
+  parcel_retention_days = 2
+
   pohttp_server_domain = var.pohttp_server_domain
   poweb_server_domain  = var.poweb_server_domain
   cogrpc_server_domain = var.cogrpc_server_domain

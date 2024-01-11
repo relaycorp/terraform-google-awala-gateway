@@ -80,6 +80,11 @@ variable "log_level" {
   }
 }
 
+variable "parcel_retention_days" {
+  description = "The number of days to retain parcels in GCS"
+  default     = 90
+}
+
 // ===== PoHTTP =====
 
 variable "pohttp_server_domain" {
