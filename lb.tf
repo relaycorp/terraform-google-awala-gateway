@@ -6,9 +6,9 @@ module "load_balancer" {
 
   name = "gateway-${var.instance_name}"
 
-  ssl                             = true
-  ssl_policy                      = google_compute_ssl_policy.main.id
-  random_certificate_suffix       = true # In case the domain changes
+  ssl                       = true
+  ssl_policy                = google_compute_ssl_policy.main.id
+  random_certificate_suffix = true # In case the domain changes
   managed_ssl_certificate_domains = [
     var.pohttp_server_domain,
     var.poweb_server_domain,
