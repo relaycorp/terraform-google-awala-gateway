@@ -195,9 +195,3 @@ resource "google_compute_region_network_endpoint_group" "poweb" {
     service = google_cloud_run_v2_service.poweb.name
   }
 }
-
-resource "google_storage_bucket_iam_member" "poweb" {
-  bucket = google_storage_bucket.gateway_messages.name
-  role   = "roles/storage.objectUser"
-  member = "serviceAccount:${google_service_account.poweb.email}"
-}

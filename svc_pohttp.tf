@@ -163,9 +163,3 @@ resource "google_compute_region_network_endpoint_group" "pohttp" {
     service = google_cloud_run_v2_service.pohttp.name
   }
 }
-
-resource "google_storage_bucket_iam_member" "pohttp" {
-  bucket = google_storage_bucket.gateway_messages.name
-  role   = "roles/storage.objectUser"
-  member = "serviceAccount:${google_service_account.pohttp.email}"
-}

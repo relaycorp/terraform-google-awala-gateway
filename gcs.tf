@@ -20,3 +20,13 @@ resource "google_storage_bucket" "gateway_messages" {
 
   force_destroy = !var.prevent_destruction
 }
+
+resource "google_storage_bucket_iam_binding" "gateway_messages" {
+  bucket = google_storage_bucket.gateway_messages.name
+  role   = "roles/storage.objectUser"
+  members = [
+    "serviceAccount:${google_service_account.pohttp.email}",
+    "serviceAccount:${google_service_account.poweb.email}",
+    "serviceAccount:${google_service_account.queue.email}",
+  ]
+}
