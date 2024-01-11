@@ -36,7 +36,7 @@ variable "docker_image_name" {
 
 variable "docker_image_tag" {
   description = "The Docker image tag to deploy (highly recommended to set this explicitly)"
-  default     = "5.0.9"
+  default     = "5.0.10"
 }
 
 variable "kms_protection_level" {
