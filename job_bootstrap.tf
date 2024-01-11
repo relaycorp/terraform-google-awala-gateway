@@ -29,7 +29,7 @@ resource "google_cloud_run_v2_job" "bootstrap" {
         args = ["build/main/bin/generate-keypairs.js"]
 
         env {
-          name  = "PUBLIC_ADDRESS"
+          name  = "INTERNET_GATEWAY"
           value = var.internet_address
         }
 
