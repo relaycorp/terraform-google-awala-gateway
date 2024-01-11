@@ -115,3 +115,11 @@ resource "google_cloud_run_v2_job" "bootstrap" {
     ignore_changes = [launch_stage]
   }
 }
+
+resource "google_cloud_run_v2_job_iam_binding" "endpoint_bootstrap_invoker" {
+  project  = var.project_id
+  location = var.region
+  name     = google_cloud_run_v2_job.bootstrap.name
+  role     = "roles/run.invoker"
+  members  = [var.sre_iam_uri]
+}

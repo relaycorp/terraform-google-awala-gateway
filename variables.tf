@@ -1,16 +1,9 @@
-variable "instance_name" {
-  description = "The name of the backend"
-  type        = string
-
-  validation {
-    condition     = can(regex("^[a-z][a-z0-9]{1,9}$", var.instance_name))
-    error_message = "Name must be between 1 and 10 characters long, and contain only lowercase letters and digits"
-  }
+variable "sre_iam_uri" {
+  description = "GCP IAM URI for an SRE or the SRE group (e.g., 'group:sre-team@acme.com')"
 }
-
-variable "internet_address" {
-  description = "The Awala Internet address of the gateway (e.g., 'example.com')"
-  type        = string
+variable "alert_email_addresses" {
+  description = "Email address for each user that should be alerted to any issues"
+  type        = list(string)
 }
 
 variable "project_id" {
@@ -27,6 +20,21 @@ variable "prevent_destruction" {
   default     = true
   type        = bool
   description = "Whether to prevent destruction of stateful resources"
+}
+
+variable "instance_name" {
+  description = "The name of the backend"
+  type        = string
+
+  validation {
+    condition     = can(regex("^[a-z][a-z0-9]{1,9}$", var.instance_name))
+    error_message = "Name must be between 1 and 10 characters long, and contain only lowercase letters and digits"
+  }
+}
+
+variable "internet_address" {
+  description = "The Awala Internet address of the gateway (e.g., 'example.com')"
+  type        = string
 }
 
 variable "docker_image_name" {
