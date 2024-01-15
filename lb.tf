@@ -52,6 +52,23 @@ module "load_balancer" {
         enable = false
       }
     }
+
+    cogrpc = {
+      description = "CogRPC"
+      groups = [
+        {
+          group = google_compute_region_network_endpoint_group.cogrpc.id
+        }
+      ]
+      enable_cdn = false
+
+      iap_config = {
+        enable = false
+      }
+      log_config = {
+        enable = false
+      }
+    }
   }
 
   http_forward = false
@@ -77,6 +94,15 @@ resource "google_compute_url_map" "main" {
   path_matcher {
     name            = "poweb"
     default_service = module.load_balancer.backend_services["poweb"].self_link
+  }
+
+  host_rule {
+    hosts        = [var.cogrpc_server_domain]
+    path_matcher = "cogrpc"
+  }
+  path_matcher {
+    name            = "cogrpc"
+    default_service = module.load_balancer.backend_services["cogrpc"].self_link
   }
 }
 
