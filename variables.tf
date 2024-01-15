@@ -1,10 +1,6 @@
 variable "sre_iam_uri" {
   description = "GCP IAM URI for an SRE or the SRE group (e.g., 'group:sre-team@acme.com')"
 }
-variable "alert_email_addresses" {
-  description = "Email address for each user that should be alerted to any issues"
-  type        = list(string)
-}
 
 variable "project_id" {
   description = "The GCP project id"

@@ -8,8 +8,7 @@ module "gateway" {
   project_id = var.google_project_id
   region     = var.google_region
 
-  sre_iam_uri           = var.sre_iam_uri
-  alert_email_addresses = var.alert_email_addresses
+  sre_iam_uri = var.sre_iam_uri
 
   instance_name    = "test"
   internet_address = var.internet_address
