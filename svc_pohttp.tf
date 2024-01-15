@@ -70,7 +70,7 @@ resource "google_cloud_run_v2_service" "pohttp" {
       }
       env {
         name  = "OBJECT_STORE_BUCKET"
-        value = google_storage_bucket.gateway_messages.name
+        value = google_storage_bucket.parcels.name
       }
 
       env {

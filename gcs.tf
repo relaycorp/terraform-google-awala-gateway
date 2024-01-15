@@ -1,9 +1,9 @@
-resource "random_id" "gateway_messages_bucket_suffix" {
+resource "random_id" "parcels" {
   byte_length = 3
 }
 
-resource "google_storage_bucket" "gateway_messages" {
-  name          = "gateway-${var.instance_name}-messages-${random_id.gateway_messages_bucket_suffix.hex}"
+resource "google_storage_bucket" "parcels" {
+  name          = "gateway-${var.instance_name}-parcels-${random_id.parcels.hex}"
   storage_class = "REGIONAL"
   location      = upper(var.region)
 
@@ -21,8 +21,8 @@ resource "google_storage_bucket" "gateway_messages" {
   force_destroy = !var.prevent_destruction
 }
 
-resource "google_storage_bucket_iam_binding" "gateway_messages" {
-  bucket = google_storage_bucket.gateway_messages.name
+resource "google_storage_bucket_iam_binding" "parcels" {
+  bucket = google_storage_bucket.parcels.name
   role   = "roles/storage.objectUser"
   members = [
     "serviceAccount:${google_service_account.pohttp.email}",
