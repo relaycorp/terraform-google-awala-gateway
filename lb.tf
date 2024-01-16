@@ -82,7 +82,7 @@ resource "google_compute_url_map" "main" {
   default_service = module.load_balancer.backend_services["pohttp"].self_link
 
   host_rule {
-    hosts        = [regex_replace(var.pohttp_server_domain, "\\.$", "")]
+    hosts        = [replace(var.pohttp_server_domain, "/\\.$/", "")]
     path_matcher = "pohttp"
   }
   path_matcher {
@@ -91,7 +91,7 @@ resource "google_compute_url_map" "main" {
   }
 
   host_rule {
-    hosts        = [regex_replace(var.poweb_server_domain, "\\.$", "")]
+    hosts        = [replace(var.poweb_server_domain, "/\\.$/", "")]
     path_matcher = "poweb"
   }
   path_matcher {
@@ -100,7 +100,7 @@ resource "google_compute_url_map" "main" {
   }
 
   host_rule {
-    hosts        = [regex_replace(var.cogrpc_server_domain, "\\.$", "")]
+    hosts        = [replace(var.cogrpc_server_domain, "/\\.$/", "")]
     path_matcher = "cogrpc"
   }
   path_matcher {
