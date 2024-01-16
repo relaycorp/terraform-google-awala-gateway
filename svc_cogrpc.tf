@@ -27,7 +27,7 @@ resource "google_cloud_run_v2_service" "cogrpc" {
 
       env {
         name  = "INTERNET_ADDRESS"
-        value = var.internet_address
+        value = local.sanitised_internet_address
       }
 
       env {

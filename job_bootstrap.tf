@@ -30,7 +30,7 @@ resource "google_cloud_run_v2_job" "bootstrap" {
 
         env {
           name  = "INTERNET_ADDRESS"
-          value = var.internet_address
+          value = local.sanitised_internet_address
         }
 
         env {
