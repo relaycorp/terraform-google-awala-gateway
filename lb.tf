@@ -32,7 +32,8 @@ module "load_balancer" {
         enable = false
       }
       log_config = {
-        enable = false
+        enable      = true
+        sample_rate = 1.0
       }
     }
 
@@ -49,7 +50,8 @@ module "load_balancer" {
         enable = false
       }
       log_config = {
-        enable = false
+        enable      = true
+        sample_rate = 1.0
       }
     }
 
@@ -66,7 +68,8 @@ module "load_balancer" {
         enable = false
       }
       log_config = {
-        enable = false
+        enable      = true
+        sample_rate = 1.0
       }
     }
   }
