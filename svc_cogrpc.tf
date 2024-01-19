@@ -26,7 +26,8 @@ resource "google_cloud_run_v2_service" "cogrpc" {
       args = ["build/main/bin/cogrpc-server.js"]
 
       ports {
-        name = "h2c" # Enable HTTP 2
+        name           = "h2c" # Enable HTTP 2
+        container_port = 8080
       }
 
       env {
