@@ -152,6 +152,14 @@ resource "google_cloud_run_service_iam_member" "pohttp_public_access" {
   member   = "allUsers"
 }
 
+resource "google_cloud_run_service_iam_member" "pohttp_sre_container_analysis" {
+  location = google_cloud_run_v2_service.pohttp.location
+  project  = google_cloud_run_v2_service.pohttp.project
+  service  = google_cloud_run_v2_service.pohttp.name
+  role     = "roles/containeranalysis.occurrences.viewer"
+  member   = var.sre_iam_uri
+}
+
 resource "google_compute_region_network_endpoint_group" "pohttp" {
   project = var.project_id
   region  = var.region

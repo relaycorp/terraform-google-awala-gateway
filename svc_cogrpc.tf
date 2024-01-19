@@ -172,6 +172,14 @@ resource "google_cloud_run_service_iam_member" "cogrpc_public_access" {
   member   = "allUsers"
 }
 
+resource "google_cloud_run_service_iam_member" "cogrpc_sre_container_analysis" {
+  location = google_cloud_run_v2_service.cogrpc.location
+  project  = google_cloud_run_v2_service.cogrpc.project
+  service  = google_cloud_run_v2_service.cogrpc.name
+  role     = "roles/containeranalysis.occurrences.viewer"
+  member   = var.sre_iam_uri
+}
+
 resource "google_compute_region_network_endpoint_group" "cogrpc" {
   project = var.project_id
   region  = var.region
