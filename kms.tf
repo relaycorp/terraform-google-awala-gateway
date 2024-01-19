@@ -95,6 +95,7 @@ resource "google_project_iam_binding" "keystore_kms_user" {
     "serviceAccount:${google_service_account.bootstrap.email}",
     "serviceAccount:${google_service_account.poweb.email}",
     "serviceAccount:${google_service_account.cogrpc.email}",
+    "serviceAccount:${google_service_account.queue.email}",
   ]
 
   condition {
