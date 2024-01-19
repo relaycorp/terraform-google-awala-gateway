@@ -15,6 +15,7 @@ resource "google_pubsub_topic_iam_binding" "queue_publisher" {
   role  = "roles/pubsub.publisher"
   members = [
     "serviceAccount:${google_service_account.poweb.email}",
+    "serviceAccount:${google_service_account.cogrpc.email}",
     "serviceAccount:${google_service_account.queue.email}",
   ]
 }
