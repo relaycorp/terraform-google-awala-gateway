@@ -176,14 +176,6 @@ resource "google_cloud_run_v2_service" "queue" {
   ]
 }
 
-resource "google_cloud_run_service_iam_member" "queue_sre_container_analysis" {
-  location = google_cloud_run_v2_service.queue.location
-  project  = google_cloud_run_v2_service.queue.project
-  service  = google_cloud_run_v2_service.queue.name
-  role     = "roles/containeranalysis.occurrences.viewer"
-  member   = var.sre_iam_uri
-}
-
 resource "google_compute_region_network_endpoint_group" "queue" {
   project = var.project_id
   region  = var.region

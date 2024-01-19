@@ -184,14 +184,6 @@ resource "google_cloud_run_service_iam_member" "poweb_public_access" {
   member   = "allUsers"
 }
 
-resource "google_cloud_run_service_iam_member" "poweb_sre_container_analysis" {
-  location = google_cloud_run_v2_service.poweb.location
-  project  = google_cloud_run_v2_service.poweb.project
-  service  = google_cloud_run_v2_service.poweb.name
-  role     = "roles/containeranalysis.occurrences.viewer"
-  member   = var.sre_iam_uri
-}
-
 resource "google_compute_region_network_endpoint_group" "poweb" {
   project = var.project_id
   region  = var.region
