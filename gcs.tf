@@ -27,6 +27,7 @@ resource "google_storage_bucket_iam_binding" "parcels" {
   members = [
     "serviceAccount:${google_service_account.pohttp.email}",
     "serviceAccount:${google_service_account.poweb.email}",
+    "serviceAccount:${google_service_account.cogrpc.email}",
     "serviceAccount:${google_service_account.queue.email}",
   ]
 }
